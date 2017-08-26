@@ -1,2 +1,15 @@
-# machine_learning
-Collection of Matlab code for supervised learning
+# machine_learning_matlab_toolbox
+
+Matlab scripts for cross validation, classification, regression, and feature selection.
+
+## compare_aucs
+
+## cross_validation
+
+## minFunc
+
+## logistic_regression
+
+## libsvm
+
+## mrmr
