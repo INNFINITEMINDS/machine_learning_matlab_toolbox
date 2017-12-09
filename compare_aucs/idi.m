@@ -3,12 +3,18 @@ function [idi_score, pval] = idi(pred_old, pred_new, labels)
 %   [idi_score, pval] = idi(pred_old, pred_new, labels)
 %
 %   OVERVIEW
-%       Calculates integrated discrimination improvement (IDI) to compare old vs new classification technique 
+%       Calculates integrated discrimination improvement (IDI)
+%       to compare old vs. new classification technique 
 %
 %    REFERENCES
-%       Mayaud, Louis, et al. Dynamic Data During Hypotensive Episode Improves Mortality Predictions Among Patients With Sepsis and Hypotension. Critical Care Medicine. 2013.
+%       Mayaud, Louis, et al. "Dynamic data during hypotensive episode improves
+%       mortality predictions among patients with sepsis and hypotension."
+%       Critical care medicine 41.4 (2013): 954.
 %
-%       Michael J. Pencina Ralph B. D'agostino Sr Ralph B. D'Agostino Jr and Ramachandran S. Vasan. Evaluating the added predictive ability of a new marker: From area under the ROC curve to reclassification and beyond. Statistics in Medicine. 2008.
+%       Pencina, Michael J., Ralph B. D'Agostino, and Ramachandran S. Vasan.
+%       "Evaluating the added predictive ability of a new marker: from area
+%       under the ROC curve to reclassification and beyond."
+%       Statistics in medicine 27.2 (2008): 157-172.
 %
 %    AUTHOR(S)
 %       Louis Mayaud <louis.mayaud@gmail.com>
