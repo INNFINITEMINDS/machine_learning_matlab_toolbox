@@ -52,7 +52,7 @@ for i_fold = 1:crossfolds
     % Append growing matrix of beta coefficients
     betas = [betas, betas_i];
     
-    %% Estimate training set labels
+	% Estimate training set labels
     labels_train_est = mnrval(betas_i, features_cv.train);
     
     % Calculate AUC and optimal point for training set

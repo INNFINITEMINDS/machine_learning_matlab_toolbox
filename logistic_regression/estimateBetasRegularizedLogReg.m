@@ -1,6 +1,6 @@
-function [lambda, beta] = estimateBetasRegularizedLogReg(features, labels, performanceMetric, regularizationMethod, numCrossvalFolds)
+function [lambda, beta] = estimateBetasRegularizedLogReg(features, labels, performanceMetric, regularizationMethod, numFolds)
 
-%   [lambda, beta] = estimateBetasRegularizedLogReg(features, labels, performanceMetric, regularizationMethod, numCrossvalFolds)
+%   [lambda, beta] = estimateBetasRegularizedLogReg(features, labels, performanceMetric, regularizationMethod, numFolds)
 %
 %	OVERVIEW
 %       Estimate optimal lambdas and betas via regularized logistic regression
@@ -18,7 +18,7 @@ function [lambda, beta] = estimateBetasRegularizedLogReg(features, labels, perfo
 %       regularizationMethod    - 'L1L2': L1 and L2 elastic net (default)
 %                               - 'L1': L1 norm (LASSO)
 %                               - 'L2': L2 norm
-%       numCrossvalFolds        - number of folds for interal cross-validation
+%       numFolds        - number of folds for interal cross-validation
 %
 %   OUTPUT
 %       lambda       - [n+1 subjects x 1] vector of optimized lambda values
@@ -40,7 +40,7 @@ function [lambda, beta] = estimateBetasRegularizedLogReg(features, labels, perfo
 % Set default parameters if not specified at function call
 if nargin < 3, performanceMetric = 'auc'; end
 if nargin < 4, regularizationMethod = 'L1L2'; end
-if nargin < 5, numCrossvalFolds = 10; end
+if nargin < 5, numFolds = 10; end
 
 % Ensure labels are col
 labels = labels(:);
@@ -60,19 +60,17 @@ options.MaxIter = 100;
 features = [ones(n, 1) features];
 
 % Initialize other variables
-opt_lambda = zeros(1, numCrossvalFolds);
+opt_lambda = zeros(1, numFolds);
 wvec0 = zeros((m+1) * (num_classes-1),1);
 
 % Shift labels from (0 or 1) to (1 or 2) for `minFunc`
 labels = labels + 1;
 
 % Generate indices for crossfolds before running parpool
-for i_fold = 1:numCrossvalFolds
-    [idx_cv(i_fold), features_cv(i_fold), labels_cv(i_fold)] = ...
-        generate_crossfolds(features, labels, i_fold, 0);
-end
+[features_cv, labels_cv] = generateCrossfolds(features, labels, numFolds);
 
-parfor i_fold = 1:numCrossvalFolds
+
+for i_fold = 1:numFolds
     features_train = features_cv(i_fold).train;
     features_test  = features_cv(i_fold).test;
     labels_train   = labels_cv(i_fold).train;
